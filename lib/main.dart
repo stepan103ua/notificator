@@ -5,12 +5,26 @@ import 'package:notificator/core/dependencies/dependencies_provider.dart';
 import 'package:notificator/core/routes/router.dart';
 import 'package:notificator/core/ui_events_handler/ui_events_handler_cubit.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final db = await DatabaseProvider.initDatabase();
 
   runApp(MyApp(db: db));
+}
+
+const platform = MethodChannel('com.example.notificator');
+
+Future<void> invokeKotlinMethod() async {
+  try {
+    await platform.invokeMethod('schedule', {
+      'time': DateTime.now().add(const Duration(seconds: 5)).millisecondsSinceEpoch,
+      'message': 'test'
+    });
+  } on PlatformException catch (e) {
+    print('Error: ${e.message}');
+  }
 }
 
 class MyApp extends StatelessWidget {
