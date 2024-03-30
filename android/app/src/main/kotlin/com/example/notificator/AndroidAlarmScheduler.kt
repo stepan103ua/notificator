@@ -16,7 +16,11 @@ class AndroidAlarmScheduler(
     @SuppressLint("ScheduleExactAlarm")
     override fun schedule(item: AlarmItem) {
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("ALARM_MESSAGE", item.message)
+            putExtra("message", item.message)
+            putExtra("title", item.title)
+            putExtra("id", item.id)
+            putExtra("time", item.time?.toInstant()?.toEpochMilli())
+
         }
 
         item.time?.toInstant()?.let {

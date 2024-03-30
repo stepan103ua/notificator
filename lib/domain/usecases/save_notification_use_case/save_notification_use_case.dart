@@ -1,3 +1,4 @@
+import 'package:notificator/core/utils/method_channel_handler.dart';
 import 'package:notificator/data/models/notification_model.dart';
 import 'package:notificator/data/repositories/notifications_repository.dart';
 import 'package:notificator/domain/entities/notification.dart';
@@ -7,12 +8,15 @@ import 'save_notification_request.dart';
 
 class SaveNotificationUseCase {
   final NotificationsRepository _notificationRepository;
+  final MethodChannelHandler _methodChannelHandler;
   final Uuid _uuid;
 
   SaveNotificationUseCase({
     required NotificationsRepository notificationRepository,
+    required MethodChannelHandler methodChannelHandler,
     required Uuid uuid,
   })  : _notificationRepository = notificationRepository,
+        _methodChannelHandler = methodChannelHandler,
         _uuid = uuid;
 
   Future<Notification> call(SaveNotificationRequest request) async {
@@ -28,6 +32,8 @@ class SaveNotificationUseCase {
     );
 
     await _notificationRepository.saveNotification(notification);
+
+    await _methodChannelHandler.scheduleNotification(notification);
 
     return notification;
   }

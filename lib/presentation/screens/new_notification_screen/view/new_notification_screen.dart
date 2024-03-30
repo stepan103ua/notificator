@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:notificator/core/ui_events_handler/callbacks/navigation_handler.dart';
-import 'package:notificator/core/ui_events_handler/callbacks/snackbar_handler.dart';
 import 'package:notificator/core/ui_events_handler/ui_events_handler_cubit.dart';
 import 'package:notificator/presentation/screens/new_notification_screen/cubit/new_notification__cubit.dart';
-import 'package:notificator/presentation/screens/notifications_screen/cubit/notifications_callbacks.dart';
 import 'package:notificator/presentation/screens/notifications_screen/cubit/notifications_cubit.dart';
 import 'package:notificator/presentation/widgets/date_picker_field.dart';
 import 'package:notificator/presentation/widgets/time_picker_field.dart';
@@ -19,8 +16,6 @@ class NewNotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final NotificationsCubit? notificationsCubit =
         GoRouterState.of(context).extra as NotificationsCubit?;
-
-    print(notificationsCubit == null);
 
     return MultiBlocProvider(
       providers: [

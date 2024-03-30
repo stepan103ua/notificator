@@ -10,7 +10,7 @@ import java.util.Date
 class CustomMethodHandler(
     context: Context,
     messenger: BinaryMessenger
-): MethodChannel.MethodCallHandler {
+) : MethodChannel.MethodCallHandler {
     private val channel = MethodChannel(messenger, "com.example.notificator")
     private val scheduler = AndroidAlarmScheduler(context)
 
@@ -21,21 +21,34 @@ class CustomMethodHandler(
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
             "schedule" -> {
+                print("RYZ: Scheduling")
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
+                val title = call.argument<String>("title") ?: return
+                val id = call.argument<Long>("id") ?: return
                 val date = Date(time)
-                val item = AlarmItem(date, message)
+
+                val item = AlarmItem(id, date, message, title)
+
                 scheduler.schedule(item)
+
                 result.success(null)
             }
+
             "cancel" -> {
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
+                val title = call.argument<String>("title") ?: return
+                val id = call.argument<Long>("id") ?: return
                 val date = Date(time)
-                val item = AlarmItem(date, message)
+
+                val item = AlarmItem(id, date, message, title)
+
                 scheduler.cancel(item)
+
                 result.success(null)
             }
+
             else -> result.notImplemented()
         }
     }

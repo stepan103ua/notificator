@@ -14,19 +14,6 @@ Future<void> main() async {
   runApp(MyApp(db: db));
 }
 
-const platform = MethodChannel('com.example.notificator');
-
-Future<void> invokeKotlinMethod() async {
-  try {
-    await platform.invokeMethod('schedule', {
-      'time': DateTime.now().add(const Duration(seconds: 5)).millisecondsSinceEpoch,
-      'message': 'test'
-    });
-  } on PlatformException catch (e) {
-    print('Error: ${e.message}');
-  }
-}
-
 class MyApp extends StatelessWidget {
   final Database db;
 
