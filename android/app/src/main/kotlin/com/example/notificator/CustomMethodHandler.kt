@@ -25,7 +25,7 @@ class CustomMethodHandler(
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
                 val title = call.argument<String>("title") ?: return
-                val id = call.argument<Long>("id") ?: return
+                val id = call.argument<Integer>("id")?.toLong() ?: return
                 val date = Date(time)
 
                 val item = AlarmItem(id, date, message, title)
@@ -39,7 +39,7 @@ class CustomMethodHandler(
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
                 val title = call.argument<String>("title") ?: return
-                val id = call.argument<Long>("id") ?: return
+                val id = call.argument<Integer>("id")?.toLong() ?: return
                 val date = Date(time)
 
                 val item = AlarmItem(id, date, message, title)

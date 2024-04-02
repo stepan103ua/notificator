@@ -32,6 +32,6 @@ class NotificationChannelService(private val context: Context) {
     }
 
     companion object {
-        const val CHANNEL_ID = "notificator_channel";
+        const val CHANNEL_ID = "notificator_channel_01";
     }
 }
