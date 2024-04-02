@@ -11,8 +11,8 @@ import io.flutter.embedding.engine.FlutterEngine
 class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         Log.d("NotificationChannel","RYZ: configureFlutterEngine")
-        super.configureFlutterEngine(flutterEngine)
         CustomMethodHandler(this, flutterEngine.dartExecutor.binaryMessenger)
+        super.configureFlutterEngine(flutterEngine)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

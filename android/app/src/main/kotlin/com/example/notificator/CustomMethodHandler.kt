@@ -1,6 +1,7 @@
 package com.example.notificator
 
 import android.content.Context
+import android.util.Log
 import com.example.notificator.models.AlarmItem
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
@@ -21,11 +22,11 @@ class CustomMethodHandler(
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
             "schedule" -> {
-                print("RYZ: Scheduling")
+                Log.d("NotificationChannel", "RYZ: Scheduling")
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
                 val title = call.argument<String>("title") ?: return
-                val id = call.argument<Integer>("id")?.toLong() ?: return
+                val id = call.argument<Int>("id")?.toLong() ?: return
                 val date = Date(time)
 
                 val item = AlarmItem(id, date, message, title)
@@ -39,7 +40,7 @@ class CustomMethodHandler(
                 val time = call.argument<Long>("time") ?: return
                 val message = call.argument<String>("message") ?: return
                 val title = call.argument<String>("title") ?: return
-                val id = call.argument<Integer>("id")?.toLong() ?: return
+                val id = call.argument<Int>("id")?.toLong() ?: return
                 val date = Date(time)
 
                 val item = AlarmItem(id, date, message, title)
