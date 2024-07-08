@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notificator/core/utils/method_channel_handler.dart';
 import 'package:notificator/data/datasources/notifications_dao.dart';
 import 'package:notificator/data/repositories/notifications_repository.dart';
 import 'package:notificator/domain/repositories/notifications_repository.dart';
@@ -22,6 +24,12 @@ class DependenciesProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiRepositoryProvider(
         providers: [
+          RepositoryProvider(
+            create: (_) => const MethodChannel('com.example.notificator'),
+          ),
+          RepositoryProvider(
+            create: (context) => MethodChannelHandler(platform: context.read()),
+          ),
           RepositoryProvider(create: (_) => const Uuid()),
           RepositoryProvider(create: (_) => database),
           RepositoryProvider(
@@ -45,6 +53,7 @@ class DependenciesProvider extends StatelessWidget {
           RepositoryProvider(
             create: (context) => SaveNotificationUseCase(
               notificationRepository: context.read(),
+              methodChannelHandler: context.read(),
               uuid: context.read(),
             ),
           ),

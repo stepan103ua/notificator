@@ -46,7 +46,13 @@ class NewNotificationCubit extends Cubit<NewNotificationState> {
 
   bool _validateFields() {
     final titleError = ValidationUtils.validateTitle(state.title.value);
-    final dateError = ValidationUtils.validateDate(state.date.value);
+    final dateError = ValidationUtils.validateDate(
+      state.date.value?.add(
+        Duration(
+            hours: state.time.value?.hour ?? 0,
+            minutes: state.time.value?.minute ?? 0),
+      ),
+    );
     final timeError = ValidationUtils.validateTime(state.time.value);
 
     emit(
@@ -61,7 +67,7 @@ class NewNotificationCubit extends Cubit<NewNotificationState> {
   }
 
   void onCreateNotificationClicked() async {
-    if (!_validateFields()) return;
+    // if (!_validateFields()) return;
 
     final fullDate = state.date.value!.add(
       state.time.value!.toDuration(),

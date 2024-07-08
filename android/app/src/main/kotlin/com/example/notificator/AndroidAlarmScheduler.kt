@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.example.notificator.models.AlarmItem
 
 class AndroidAlarmScheduler(
@@ -13,10 +14,14 @@ class AndroidAlarmScheduler(
 
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
-    @SuppressLint("ScheduleExactAlarm")
     override fun schedule(item: AlarmItem) {
+        Log.d("NotificationChannel", "RYZ: Scheduling: time: ${item.time}")
         val intent = Intent(context, AlarmReceiver::class.java).apply {
-            putExtra("ALARM_MESSAGE", item.message)
+            putExtra("message", item.message)
+            putExtra("title", item.title)
+            putExtra("id", item.id)
+            putExtra("time", item.time?.toInstant()?.toEpochMilli())
+
         }
 
         item.time?.toInstant()?.let {
@@ -25,7 +30,7 @@ class AndroidAlarmScheduler(
                 it.toEpochMilli(),
                 PendingIntent.getBroadcast(
                     context,
-                    item.hashCode(),
+                    1234,
                     intent,
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
