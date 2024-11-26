@@ -53,4 +53,8 @@ class CustomMethodHandler(
             else -> result.notImplemented()
         }
     }
+
+    fun invokeMethod(method: String, arguments: Any?) {
+        channel.invokeMethod(method, arguments)
+    }
 }

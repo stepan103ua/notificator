@@ -15,7 +15,7 @@ class NotificationModel extends Notification {
       : super(
           id: json['id'],
           title: json['title'],
-          description: json['description'],
+          description: json['description'] ?? '',
           date: DateTime.parse(json['date']),
           isRepeating: json['isRepeating'] == 1 ? true : false,
           isActive: json['isActive'] == 1 ? true : false,

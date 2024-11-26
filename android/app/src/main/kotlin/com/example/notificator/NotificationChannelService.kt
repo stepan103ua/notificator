@@ -29,11 +29,11 @@ class NotificationChannelService(private val context: Context) {
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Scheduled Notification")
             .setContentText(alarmItem.message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//            .setContentIntent(pendingIntent)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setContentIntent(pendingIntent)
 
         with(NotificationManagerCompat.from(context)) {
-            notify(12345, builder.build())
+            notify(alarmItem.hashCode(), builder.build())
         }
 
 

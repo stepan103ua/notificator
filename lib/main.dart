@@ -4,6 +4,7 @@ import 'package:notificator/core/database/database_provider.dart';
 import 'package:notificator/core/dependencies/dependencies_provider.dart';
 import 'package:notificator/core/routes/router.dart';
 import 'package:notificator/core/ui_events_handler/ui_events_handler_cubit.dart';
+import 'package:notificator/presentation/widgets/native_event_handler/native_event_cubit.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/services.dart';
 
@@ -20,10 +21,18 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.db});
 
   @override
-  Widget build(BuildContext context) => BlocProvider(
-        create: (_) => UiEventsHandlerCubit(),
-        child: DependenciesProvider(
-          database: db,
+  Widget build(BuildContext context) =>
+      DependenciesProvider(
+        database: db,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) => UiEventsHandlerCubit(),
+            ),
+            BlocProvider(
+              create: (context) => NativeEventCubit(nativeEventsRepository: context.read()),
+            ),
+          ],
           child: MaterialApp.router(
             title: 'Notificator',
             theme: ThemeData(

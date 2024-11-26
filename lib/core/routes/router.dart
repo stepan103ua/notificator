@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:notificator/core/ui_events_handler/ui_events_handler.dart';
+import 'package:notificator/presentation/screens/alert_screen/view/alert_screen.dart';
 import 'package:notificator/presentation/screens/new_notification_screen/view/new_notification_screen.dart';
 import 'package:notificator/presentation/screens/notifications_screen/view/notifications_screen.dart';
+import 'package:notificator/presentation/widgets/native_event_handler/view/native_event_handler.dart';
 
 typedef ScreenBuilder = Widget Function();
 
@@ -18,6 +20,11 @@ class CustomRouter {
       path: NewNotificationScreen.routeName,
       builder: (context, state) => const NewNotificationScreen(),
     ),
+    GoRoute(
+      name: AlertScreen.routeName,
+      path: AlertScreen.routeName,
+      builder: (context, state) => AlertScreen(id: state.extra as int),
+    ),
   ];
 
   late final router = GoRouter(
@@ -26,8 +33,10 @@ class CustomRouter {
         .map(
           (route) => GoRoute(
             path: route.path,
-            builder: (context, state) => UiEventsHandler(
-              child: route.builder!(context, state),
+            builder: (context, state) => NativeEventHandler(
+              child: UiEventsHandler(
+                child: route.builder!(context, state),
+              ),
             ),
           ),
         )

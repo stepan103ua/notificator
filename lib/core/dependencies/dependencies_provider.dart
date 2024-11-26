@@ -3,8 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notificator/core/utils/method_channel_handler.dart';
 import 'package:notificator/data/datasources/notifications_dao.dart';
+import 'package:notificator/data/repositories/native_events_repository.dart';
 import 'package:notificator/data/repositories/notifications_repository.dart';
+import 'package:notificator/domain/repositories/native_events_repository.dart';
 import 'package:notificator/domain/repositories/notifications_repository.dart';
+import 'package:notificator/domain/usecases/get_notification_by_id_use_case.dart';
 import 'package:notificator/domain/usecases/get_notifications_use_case.dart';
 import 'package:notificator/domain/usecases/save_notification_use_case/save_notification_use_case.dart';
 import 'package:notificator/domain/usecases/update_notification_use_case.dart';
@@ -46,6 +49,11 @@ class DependenciesProvider extends StatelessWidget {
             ),
           ),
           RepositoryProvider(
+            create: (context) => GetNotificationByIdUseCase(
+              notificationRepository: context.read(),
+            ),
+          ),
+          RepositoryProvider(
             create: (context) => UpdateNotificationUseCase(
               notificationRepository: context.read(),
             ),
@@ -57,6 +65,7 @@ class DependenciesProvider extends StatelessWidget {
               uuid: context.read(),
             ),
           ),
+          RepositoryProvider<NativeEventsRepository>(create: (context) => NativeEventsRepositoryImpl(methodChannelHandler: context.read()))
         ],
         child: child,
       );
