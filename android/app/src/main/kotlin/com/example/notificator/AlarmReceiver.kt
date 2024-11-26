@@ -18,6 +18,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val item = AlarmItem(id, parsedDate, message, title)
 
+        Log.d("NotificationChannel", "RYZ: Alarm item: ${item.id} ${item.message} ${item.title} ${item.time}")
+
         NotificationChannelService(context!!).showNotification(item)
     }
 }
