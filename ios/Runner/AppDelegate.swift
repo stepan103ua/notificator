@@ -3,31 +3,36 @@ import Flutter
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {
+    var methodChannel: FlutterMethodChannel?
+    
     override func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-    GeneratedPluginRegistrant.register(with: self)
-    UNUserNotificationCenter.current().delegate = self
+        GeneratedPluginRegistrant.register(with: self)
+        UNUserNotificationCenter.current().delegate = self
+            
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error)")
+            }
+            if granted {
+                print("Notification permissions granted.")
+            } else {
+                print("Notification permissions denied.")
+            }
+        }
+          
+        let flutterViewController = window?.rootViewController as? FlutterViewController
         
-    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-        if let error = error {
-            print("Notification permission error: \(error)")
+        if let flutterViewController = flutterViewController {
+            methodChannel = FlutterMethodChannel(
+                name: "com.example.notificator",
+                binaryMessenger: flutterViewController.binaryMessenger
+            )
         }
-        if granted {
-            print("Notification permissions granted.")
-        } else {
-            print("Notification permissions denied.")
-        }
-    }
-      
-    let controller = window?.rootViewController as! FlutterViewController
-    let channel = FlutterMethodChannel(
-        name: "com.example.notificator",
-        binaryMessenger: controller.binaryMessenger
-    )
 
-    channel.setMethodCallHandler { (call, result) in
+        methodChannel?.setMethodCallHandler { (call, result) in
         print("Call from Flutter side: \(call.method), args: \(String(describing: call.arguments))")
         if call.method == "schedule" {
             if let arguments = call.arguments as? [String: Any] {
@@ -62,12 +67,29 @@ import Flutter
             completionHandler([.alert, .sound])
         }
     
+    override func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        let alarmId = userInfo["alarm_id"]
+    
+        print("UserInfo[alarm_id]: \(String(describing: alarmId))")
+    
+        methodChannel?.invokeMethod("onNotificationClick", arguments: ["alarm_item_id": alarmId])
+
+        // Always call the completion handler
+        completionHandler()
+    }
+    
     func scheduleAlarm(notification: NotificationData) {
         // Create the notification content
         let content = UNMutableNotificationContent()
         content.title = notification.title
         content.body = notification.message
         content.sound = .default
+        content.userInfo = [
+            "alarm_id": notification.id,
+        ]
         
         let timeInterval = TimeInterval(notification.time) / 1000 // Convert to seconds
         let notificationDate = Date(timeIntervalSince1970: timeInterval)
