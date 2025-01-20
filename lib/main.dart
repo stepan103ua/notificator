@@ -20,8 +20,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.db});
 
   @override
-  Widget build(BuildContext context) =>
-      DependenciesProvider(
+  Widget build(BuildContext context) => DependenciesProvider(
         database: db,
         child: MultiBlocProvider(
           providers: [
@@ -29,7 +28,8 @@ class MyApp extends StatelessWidget {
               create: (_) => UiEventsHandlerCubit(),
             ),
             BlocProvider(
-              create: (context) => NativeEventCubit(nativeEventsRepository: context.read()),
+              create: (context) =>
+                  NativeEventCubit(nativeEventsRepository: context.read()),
             ),
           ],
           child: MaterialApp.router(

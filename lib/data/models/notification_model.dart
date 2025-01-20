@@ -1,7 +1,6 @@
 import 'package:notificator/domain/entities/notification.dart';
 
 class NotificationModel extends Notification {
-
   const NotificationModel({
     required super.id,
     required super.title,
