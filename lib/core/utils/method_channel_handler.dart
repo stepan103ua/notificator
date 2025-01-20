@@ -35,7 +35,8 @@ class AlarmNotificationEvent extends NativeEvent {
 
 class MethodChannelHandler {
   final MethodChannel _platform;
-  final StreamController<NativeEvent> _eventChannel = StreamController.broadcast();
+  final StreamController<NativeEvent> _eventChannel =
+      StreamController.broadcast();
 
   MethodChannelHandler({required MethodChannel platform})
       : _platform = platform;

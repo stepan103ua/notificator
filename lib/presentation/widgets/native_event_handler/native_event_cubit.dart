@@ -19,7 +19,7 @@ class NativeEventCubit extends Cubit<NativeEventState> {
     _nativeEventsRepository.nativeEvents.listen((event) {
       print('NativeEventCubit: $event');
       if (event is AlarmNotificationEvent) {
-         emit(state.pushSideEffect((NativeEventOpenAlarmScreen(event.id))));
+        emit(state.pushSideEffect((NativeEventOpenAlarmScreen(event.id))));
       }
     });
   }

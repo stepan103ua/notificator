@@ -65,7 +65,9 @@ class DependenciesProvider extends StatelessWidget {
               uuid: context.read(),
             ),
           ),
-          RepositoryProvider<NativeEventsRepository>(create: (context) => NativeEventsRepositoryImpl(methodChannelHandler: context.read()))
+          RepositoryProvider<NativeEventsRepository>(
+              create: (context) => NativeEventsRepositoryImpl(
+                  methodChannelHandler: context.read()))
         ],
         child: child,
       );
