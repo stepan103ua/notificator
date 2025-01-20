@@ -32,12 +32,12 @@ class AlertScreen extends StatelessWidget {
                   children: [
                     Text(
                       state.notification!.title,
-                      style: Theme.of(context).textTheme.headlineLarge,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 16),
                     Text(
                       state.notification!.description,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),

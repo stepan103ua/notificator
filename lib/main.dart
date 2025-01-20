@@ -6,7 +6,6 @@ import 'package:notificator/core/routes/router.dart';
 import 'package:notificator/core/ui_events_handler/ui_events_handler_cubit.dart';
 import 'package:notificator/presentation/widgets/native_event_handler/native_event_cubit.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/services.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,8 +20,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.db});
 
   @override
-  Widget build(BuildContext context) =>
-      DependenciesProvider(
+  Widget build(BuildContext context) => DependenciesProvider(
         database: db,
         child: MultiBlocProvider(
           providers: [
@@ -30,7 +28,8 @@ class MyApp extends StatelessWidget {
               create: (_) => UiEventsHandlerCubit(),
             ),
             BlocProvider(
-              create: (context) => NativeEventCubit(nativeEventsRepository: context.read()),
+              create: (context) =>
+                  NativeEventCubit(nativeEventsRepository: context.read()),
             ),
           ],
           child: MaterialApp.router(
