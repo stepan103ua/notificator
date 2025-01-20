@@ -50,4 +50,4 @@ jobs:
         uses: subosito/flutter-action@v2
 
       - name: Build iOS
-        run: flutter build ios
+        run: flutter build ipa --no-codesign
