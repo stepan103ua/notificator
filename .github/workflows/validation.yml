@@ -27,3 +27,27 @@ jobs:
 
       - name: Run linter
         run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+  android_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Build Android
+        run: flutter build apk
+
+  ios_build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+
+      - name: Build iOS
+        run: flutter build ios
