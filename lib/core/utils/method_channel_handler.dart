@@ -57,7 +57,7 @@ class MethodChannelHandler {
   Future<void> scheduleNotification(Notification notification) =>
       _platform.invokeMethod(ScheduleMethodChannelName.schedule.name, {
         'id': notification.id,
-        'time': notification.date.millisecondsSinceEpoch,
+        'time': notification.date.toLocal().millisecondsSinceEpoch,
         'message': notification.description,
         'title': notification.title,
       });
